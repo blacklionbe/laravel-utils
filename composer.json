@@ -10,7 +10,7 @@
         "ibericode/vat": "^2.0"
     },
     "require-dev": {
-        "spatie/laravel-web-tinker": "^1.5",
+        "spatie/laravel-web-tinker": "^1.5"
     },
     "authors": [
         {
