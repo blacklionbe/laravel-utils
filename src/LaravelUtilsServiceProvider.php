@@ -30,7 +30,7 @@ class LaravelUtilsServiceProvider extends EventServiceProvider
      */
     public function boot()
     {
-        parent::boot()
+        parent::boot();
 
         $this->loadMigrationsFrom(__DIR__.'/migrations');
 
