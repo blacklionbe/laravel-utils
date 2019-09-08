@@ -18,6 +18,11 @@
             "email": "klaas@blacklion.be"
         }
     ],
+    "autoload": {
+        "psr-0": {
+            "KlaasGeldof\\LaravelUtils\\": "src/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
