@@ -7,7 +7,8 @@
         "barryvdh/laravel-snappy": "^0.4.5",
         "h4cc/wkhtmltopdf-amd64": "^0.12.4",
         "guzzlehttp/guzzle": "^6.3",
-        "ibericode/vat": "^2.0"
+        "ibericode/vat": "^2.0",
+        "facade/ignition": "^1.4"
     },
     "require-dev": {
         "spatie/laravel-web-tinker": "^1.5"
