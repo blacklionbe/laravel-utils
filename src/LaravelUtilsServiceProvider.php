@@ -1,6 +1,6 @@
 <?php
 
-namespace KlaasGeldof\LaravelUtils;
+namespace BlackLion\LaravelUtils;
 
 use Ibericode\Vat\Validator as VatValidator;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;

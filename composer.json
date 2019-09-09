@@ -1,5 +1,5 @@
 {
-    "name": "klaasgeldof/laravel-utils",
+    "name": "blacklionbe/laravel-utils",
     "require": {
         "beyondcode/laravel-dump-server": "^1.3",
         "laravel/horizon": "^3.3",
@@ -22,13 +22,13 @@
     ],
     "autoload": {
         "psr-0": {
-            "KlaasGeldof\\LaravelUtils\\": "src/"
+            "BlackLion\\LaravelUtils\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "KlaasGeldof\\LaravelUtils\\LaravelUtilsServiceProvider"
+                "BlackLion\\LaravelUtils\\LaravelUtilsServiceProvider"
             ]
         }
     }

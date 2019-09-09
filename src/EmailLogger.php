@@ -1,6 +1,6 @@
 <?php
 
-namespace KlaasGeldof\LaravelUtils;
+namespace BlackLion\LaravelUtils;
 
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\DB;

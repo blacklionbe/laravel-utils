@@ -1,6 +1,6 @@
 # Laravel Utils
 
-Common utils used in Laravel projects by Black Lion.
+Common stuff used in Laravel projects by Black Lion.
 
 ## Installation
 
