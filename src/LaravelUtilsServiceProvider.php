@@ -82,6 +82,10 @@ class LaravelUtilsServiceProvider extends EventServiceProvider
         Blade::directive('errors', function ($expression) {
             return "<?php if (\$errors->has($expression)) echo '<span class=\"form-error\" role=\"alert\">'.ucfirst(\$errors->first($expression)).'</span>'; ?>";
         });
+
+        Blade::directive('nl2br', function ($expression) {
+            return "<?php echo nl2br(e($expression)) ?>";
+        });
     }
 
     protected function addValidators()
