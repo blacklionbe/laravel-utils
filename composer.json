@@ -3,7 +3,6 @@
     "require": {
         "beyondcode/laravel-dump-server": "^1.3",
         "laravel/horizon": "^3.3",
-        "laravel/telescope": "^2.1",
         "guzzlehttp/guzzle": "^6.3",
         "ibericode/vat": "^2.0",
         "facade/ignition": "^1.4",
