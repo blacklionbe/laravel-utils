@@ -3,12 +3,11 @@
 namespace BlackLion\LaravelUtils;
 
 use Ibericode\Vat\Validator as VatValidator;
+use Illuminate\Foundation\Events\LocaleUpdated;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
-use Symfony\Component\Finder\Finder;
 
 class LaravelUtilsServiceProvider extends EventServiceProvider
 {
@@ -20,6 +19,9 @@ class LaravelUtilsServiceProvider extends EventServiceProvider
     protected $listen = [
         MessageSending::class => [
             EmailLogger::class,
+        ],
+        LocaleUpdated::class => [
+            ShareTranslations::class,
         ],
     ];
 
@@ -34,27 +36,13 @@ class LaravelUtilsServiceProvider extends EventServiceProvider
 
         $this->loadMigrationsFrom(__DIR__.'/migrations');
 
-        $this->shareTranslations();
-
         $this->addBladeDirectives();
 
         $this->addValidators();
 
         $this->addHelpers();
-    }
 
-    protected function shareTranslations()
-    {
-        $finder = new Finder();
-        $path = resource_path('lang/'.$this->app->getLocale());
-
-        $translations = collect($finder->files()->in($path))->mapWithKeys(function ($file) {
-            $nameWithoutExtension = pathinfo($file->getFilename(), PATHINFO_FILENAME);
-
-            return [$nameWithoutExtension => require $file->getRealPath()];
-        });
-
-        View::share('translations', $translations);
+        app(ShareTranslations::class)->update();
     }
 
     protected function addBladeDirectives()
