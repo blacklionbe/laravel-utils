@@ -3,6 +3,8 @@
 namespace BlackLion\LaravelUtils;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 class LanguageDetector
@@ -22,27 +24,64 @@ class LanguageDetector
 
     public function redirect()
     {
-        $language = request()->getPreferredLanguage($this->languages);
-
-        return function () use ($language) {
-            return redirect('/'.$language, 301);
+        return function () {
+            return redirect('/'.$this->getLanguage(), 301);
         };
     }
 
     public function detect()
     {
-        $language = request()->segment(1);
+        $language = $this->getLanguage();
 
         if (in_array($language, $this->languages)) {
             App::setLocale($language);
-        } elseif (! $this->isSystemPath($language)) {
+            Cookie::queue('language', $language, 60);
+        } elseif (! $this->isSystem($language)) {
             abort(404);
         }
 
         return $language;
     }
 
-    protected function isSystemPath($path)
+    protected function getLanguage()
+    {
+        if ($language = $this->getLanguageFromUrl()) {
+            return $language;
+        } elseif ($language = $this->getLanguageFromCookie()) {
+            return $language;
+        } elseif ($language = $this->getLanguageFromBrowser()) {
+            return $language;
+        } else {
+            return $this->languages[0];
+        }
+    }
+
+    protected function getLanguageFromUrl()
+    {
+        return request()->segment(1);
+    }
+
+    protected function getLanguageFromCookie()
+    {
+        $language = Cookie::get('language');
+
+        if (! $language) {
+            return;
+        }
+
+        if (strlen($language) > 10) {
+            $language = Crypt::decrypt($language, false);
+        }
+
+        return $language;
+    }
+
+    protected function getLanguageFromBrowser()
+    {
+        return request()->getPreferredLanguage($this->languages);
+    }
+
+    protected function isSystem($path)
     {
         return $this->getSystemPaths()
             ->some(function ($prefix) use ($path) {
@@ -53,7 +92,7 @@ class LanguageDetector
     protected function getSystemPaths()
     {
         return collect(array_merge(
-            ['tinker', 'nova', 'vendor', 'admin', 'horizon', 'sitemap', 'robots'],
+            ['tinker', 'nova', 'vendor', 'admin', 'horizon', 'sitemap', 'robots', 'ignition', '_ignition'],
             $this->system
         ));
     }
