@@ -35,7 +35,7 @@ class LanguageDetector
 
         if (in_array($language, $this->languages)) {
             App::setLocale($language);
-            Cookie::queue('language', $language, 60);
+            Cookie::queue('language', $language, 60 * 24 * 10);
         } elseif (! $this->isSystem($language)) {
             abort(404);
         }
@@ -47,11 +47,17 @@ class LanguageDetector
     {
         if ($language = $this->getLanguageFromUrl()) {
             return $language;
-        } elseif ($language = $this->getLanguageFromCookie()) {
+        }
+
+        if ($language = $this->getLanguageFromCookie()) {
             return $language;
-        } elseif ($language = $this->getLanguageFromBrowser()) {
+        }
+
+        if ($language = $this->getLanguageFromBrowser()) {
             return $language;
-        } else {
+        }
+
+        if (count($this->languages) > 0) {
             return $this->languages[0];
         }
     }
