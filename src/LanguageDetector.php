@@ -36,8 +36,6 @@ class LanguageDetector
         if (in_array($language, $this->languages)) {
             App::setLocale($language);
             Cookie::queue('language', $language, 60 * 24 * 10);
-        } elseif (! $this->isSystem($language)) {
-            abort(404);
         }
 
         return $language;
@@ -64,7 +62,9 @@ class LanguageDetector
 
     protected function getLanguageFromUrl()
     {
-        return request()->segment(1);
+        if (! $this->isSystem($language = request()->segment(1))) {
+            return $language;
+        }
     }
 
     protected function getLanguageFromCookie()
