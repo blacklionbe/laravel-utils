@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
 if (! function_exists('carbon')) {
     function carbon($time = null, $tz = null)
     {
-        return Carbon::parse($time, $tz);
+        return Date::parse($time, $tz);
     }
 }
 
