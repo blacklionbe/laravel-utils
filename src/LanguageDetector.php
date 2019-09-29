@@ -2,6 +2,7 @@
 
 namespace BlackLion\LaravelUtils;
 
+use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
@@ -9,17 +10,40 @@ use Illuminate\Support\Str;
 
 class LanguageDetector
 {
-    protected $languages;
-    protected $system;
+    protected $languages = [];
+    protected $system = [];
 
-    public function __construct($languages, $system = [])
+    public static function make()
     {
+        return new static;
+    }
+
+    public function setLanguages(array $languages)
+    {
+        if (array_keys($languages) !== range(0, count($languages) - 1)) {
+            $languages = array_keys($languages);
+        }
+
         $this->languages = $languages;
+
+        return $this;
+    }
+
+    public function getLanguages()
+    {
+        return $this->languages;
+    }
+
+    public function setSystem(array $system)
+    {
         $this->system = $system;
 
-        if (array_keys($languages) !== range(0, count($languages) - 1)) {
-            $this->languages = array_keys($languages);
-        }
+        return $this;
+    }
+
+    public function getSystem()
+    {
+        return $this->system;
     }
 
     public function redirect()
@@ -35,7 +59,7 @@ class LanguageDetector
 
         if (in_array($language, $this->languages)) {
             App::setLocale($language);
-            Cookie::queue('language', $language, 60 * 24 * 10);
+            Cookie::queue('language', $language, CarbonInterval::days(30)->totalMinutes);
         } else {
             abort(404);
         }
