@@ -36,6 +36,8 @@ class LanguageDetector
         if (in_array($language, $this->languages)) {
             App::setLocale($language);
             Cookie::queue('language', $language, 60 * 24 * 10);
+        } else {
+            abort(404);
         }
 
         return $language;
