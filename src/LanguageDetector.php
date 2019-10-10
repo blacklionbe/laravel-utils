@@ -57,12 +57,12 @@ class LanguageDetector
     {
         $language = $this->getLanguage();
 
-        if (in_array($language, $this->languages)) {
-            App::setLocale($language);
-            Cookie::queue('language', $language, CarbonInterval::days(30)->totalMinutes);
-        } else {
+        if (! in_array($language, $this->languages)) {
             abort(404);
         }
+
+        App::setLocale($language);
+        Cookie::queue('language', $language, CarbonInterval::days(30)->totalMinutes);
 
         return $language;
     }
@@ -81,14 +81,16 @@ class LanguageDetector
             return $language;
         }
 
-        if (count($this->languages) > 0) {
-            return $this->languages[0];
+        if ($language = $this->getFirstLanguage()) {
+            return $language;
         }
     }
 
     protected function getLanguageFromUrl()
     {
-        if (! $this->isSystem($language = request()->segment(1))) {
+        $language = request()->segment(1);
+
+        if (! $this->isSystem($language)) {
             return $language;
         }
     }
@@ -107,6 +109,13 @@ class LanguageDetector
     protected function getLanguageFromBrowser()
     {
         return request()->getPreferredLanguage($this->languages);
+    }
+
+    protected function getFirstLanguage()
+    {
+        if (count($this->languages) > 0) {
+            return $this->languages[0];
+        }
     }
 
     protected function isSystem($path)
