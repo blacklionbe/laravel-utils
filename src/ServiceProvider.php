@@ -8,8 +8,9 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
-class LaravelUtilsServiceProvider extends EventServiceProvider
+class ServiceProvider extends EventServiceProvider
 {
     /**
      * The event listener mappings for the application.
@@ -34,6 +35,8 @@ class LaravelUtilsServiceProvider extends EventServiceProvider
     {
         parent::boot();
 
+        $this->removeIndexPhpFromUrl();
+
         $this->loadMigrationsFrom(__DIR__.'/migrations');
 
         $this->addBladeDirectives();
@@ -43,6 +46,18 @@ class LaravelUtilsServiceProvider extends EventServiceProvider
         $this->addHelpers();
 
         app(ShareTranslations::class)->update();
+    }
+
+    protected function removeIndexPhpFromUrl()
+    {
+        if (Str::startsWith($path = request()->getRequestUri(), '/index.php/')) {
+            $url = str_replace('index.php/', '', $path);
+
+            if (strlen($url) > 0) {
+                header("Location: $url", true, 301);
+                exit;
+            }
+        }
     }
 
     protected function addBladeDirectives()

@@ -28,7 +28,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "BlackLion\\LaravelUtils\\LaravelUtilsServiceProvider"
+                "BlackLion\\LaravelUtils\\ServiceProvider"
             ]
         }
     }
