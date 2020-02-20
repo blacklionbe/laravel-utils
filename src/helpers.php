@@ -12,6 +12,8 @@ if (! function_exists('carbon')) {
 if (! function_exists('extension')) {
     function extension($filename)
     {
+        list($filename) = explode('?', $filename);
+        
         return strtolower(pathinfo($filename, PATHINFO_EXTENSION));
     }
 }
