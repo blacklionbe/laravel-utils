@@ -5,7 +5,7 @@
         "laravel/horizon": "^3.3",
         "guzzlehttp/guzzle": "^6.3",
         "ibericode/vat": "^2.0",
-        "facade/ignition": "^1.4",
+        "facade/ignition": "^2.0",
         "laravel/tinker": "^2.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "predis/predis": "^1.1"
