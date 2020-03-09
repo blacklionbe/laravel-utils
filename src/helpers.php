@@ -30,6 +30,6 @@ if (! function_exists('ie')) {
 if (! function_exists('label')) {
     function label($key, $replace = [], $locale = null)
     {
-        return __('labels.'.$key, $replace, $local);
+        return __('labels.'.$key, $replace, $locale);
     }
 }
