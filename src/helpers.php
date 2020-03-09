@@ -26,3 +26,10 @@ if (! function_exists('ie')) {
         return preg_match('~MSIE|Internet Explorer~i', $agent) || (strpos($agent, 'Trident/7.0') !== false && strpos($agent, 'rv:11.0') !== false);
     }
 }
+
+if (! function_exists('label')) {
+    function label($key, $replace = [], $locale = null)
+    {
+        return __('labels.'.$key, $replace, $local);
+    }
+}
