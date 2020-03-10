@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Str;
 
 if (! function_exists('carbon')) {
     function carbon($time = null, $tz = null)
@@ -13,7 +14,7 @@ if (! function_exists('extension')) {
     function extension($filename)
     {
         list($filename) = explode('?', $filename);
-        
+
         return strtolower(pathinfo($filename, PATHINFO_EXTENSION));
     }
 }
@@ -30,6 +31,12 @@ if (! function_exists('ie')) {
 if (! function_exists('label')) {
     function label($key, $replace = [], $locale = null)
     {
-        return __('labels.'.$key, $replace, $locale);
+        $result = __('labels.'.$key, $replace, $locale);
+
+        if (Str::startsWith($result, 'labels.')) {
+            return $key;
+        }
+
+        return $result;
     }
 }
