@@ -70,6 +70,10 @@ class ServiceProvider extends EventServiceProvider
             return "<?php echo config($expression); ?>";
         });
 
+        Blade::directive('label', function ($expression) {
+            return "<?php echo label($expression); ?>";
+        });
+
         Blade::directive('number', function ($expression) {
             if (strpos($expression, ',') === false) {
                 $expression .= ', 2';
