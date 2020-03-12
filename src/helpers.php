@@ -33,7 +33,7 @@ if (! function_exists('label')) {
     {
         $result = __('labels.'.$key, $replace, $locale);
 
-        if (Str::startsWith($result, 'labels.')) {
+        if (is_string($result) && Str::startsWith($result, 'labels.')) {
             return $key;
         }
 
