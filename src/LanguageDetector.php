@@ -129,7 +129,18 @@ class LanguageDetector
     protected function getSystemPaths()
     {
         return collect(array_merge(
-            ['tinker', 'nova', 'vendor', 'admin', 'horizon', 'sitemap', 'robots', 'ignition', '_ignition'],
+            [
+                'tinker',
+                'nova',
+                'vendor',
+                'admin',
+                'horizon',
+                'sitemap',
+                'robots',
+                'ignition',
+                '_ignition',
+                'livewire',
+            ],
             $this->system
         ));
     }
