@@ -100,7 +100,11 @@ class LanguageDetector
         $language = Cookie::get('language');
 
         if (strlen($language) > 10) {
-            return Crypt::decrypt($language, false);
+            $language = Crypt::decrypt($language, false);
+        }
+
+        if (strpos($language, '|') !== false) {
+            $language = explode('|', $language)[1];
         }
 
         return $language;
