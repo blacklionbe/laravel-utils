@@ -2,7 +2,7 @@
     "name": "blacklionbe/laravel-utils",
     "require": {
         "beyondcode/laravel-dump-server": "^1.4",
-        "laravel/horizon": "^4.0",
+        "laravel/horizon": "^5.2",
         "guzzlehttp/guzzle": "^7.0.1",
         "ibericode/vat": "^2.0",
         "facade/ignition": "^2.0",
