@@ -2,13 +2,14 @@
 
 namespace BlackLion\LaravelUtils;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Mail\Events\MessageSending;
 use Ibericode\Vat\Validator as VatValidator;
 use Illuminate\Foundation\Events\LocaleUpdated;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
-use Illuminate\Mail\Events\MessageSending;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class ServiceProvider extends EventServiceProvider
 {
@@ -44,6 +45,8 @@ class ServiceProvider extends EventServiceProvider
         $this->addValidators();
 
         $this->addHelpers();
+
+        $this->addCarbonMacros();
 
         app(ShareTranslations::class)->update();
     }
@@ -105,5 +108,16 @@ class ServiceProvider extends EventServiceProvider
     protected function addHelpers()
     {
         include __DIR__.'/helpers.php';
+    }
+
+    protected function addCarbonMacros()
+    {
+        Carbon::macro('formatDate', function () {
+            return $this->format('d/m/Y');
+        });
+
+        Carbon::macro('formatDateTime', function () {
+            return $this->format('d/m/Y H:i');
+        });
     }
 }
