@@ -36,7 +36,7 @@ class EmailLogger
      * @param $field
      * @return null|string
      */
-    function formatAddressField($message, $field)
+    protected function formatAddressField($message, $field)
     {
         $headers = $message->getHeaders();
 

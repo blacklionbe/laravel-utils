@@ -144,6 +144,7 @@ class LanguageDetector
                 'ignition',
                 '_ignition',
                 'livewire',
+                '_debugbar',
             ],
             $this->system
         ));
