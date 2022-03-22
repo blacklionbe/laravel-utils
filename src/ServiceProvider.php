@@ -86,7 +86,11 @@ class ServiceProvider extends EventServiceProvider
         });
 
         Blade::directive('currency', function ($expression) {
-            return "<?php echo '€&nbsp;'.number_format($expression, 2, ',', '.'); ?>";
+            if (strpos($expression, ',') === false) {
+                $expression .= ', 2';
+            }
+
+            return "<?php echo '€&nbsp;'.number_format($expression, ',', '.'); ?>";
         });
 
         Blade::directive('errors', function ($expression) {
