@@ -136,6 +136,7 @@ class LanguageDetector
             [
                 'tinker',
                 'nova',
+                'nova-vendor',
                 'vendor',
                 'admin',
                 'horizon',
