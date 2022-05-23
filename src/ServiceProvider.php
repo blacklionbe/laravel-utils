@@ -100,6 +100,19 @@ class ServiceProvider extends EventServiceProvider
         Blade::directive('nl2br', function ($expression) {
             return "<?php echo nl2br(e($expression)) ?>";
         });
+
+        Blade::directive('capture', function ($expression) {
+            return "<?php
+                \$__capture_directive_variable = (string) str([{$expression}][0] ?? '')->camel();
+                ob_start();
+            ?>";
+        });
+
+        Blade::directive('endcapture', function () {
+            return "<?php
+                \$\$__capture_directive_variable = new Illuminate\Support\HtmlString(trim(ob_get_clean()));
+            ?>";
+        });
     }
 
     protected function addValidators()
