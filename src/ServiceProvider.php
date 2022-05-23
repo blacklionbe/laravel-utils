@@ -103,14 +103,14 @@ class ServiceProvider extends EventServiceProvider
 
         Blade::directive('capture', function ($expression) {
             return "<?php
-                \$__capture_directive_variable = (string) str([{$expression}][0] ?? '')->camel();
+                \$__capture_directive_variable = (string) \Illuminate\Support\Str::of([{$expression}][0] ?? '')->camel();
                 ob_start();
             ?>";
         });
 
         Blade::directive('endcapture', function () {
             return "<?php
-                \$\$__capture_directive_variable = new Illuminate\Support\HtmlString(trim(ob_get_clean()));
+                \$\$__capture_directive_variable = new \Illuminate\Support\HtmlString(trim(ob_get_clean()));
             ?>";
         });
     }
