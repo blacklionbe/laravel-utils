@@ -24,6 +24,14 @@ class ShareTranslations
         $finder = new Finder();
         $path = resource_path('lang/'.App::getLocale());
 
+        if (! is_dir($path) && function_exists('lang_path')) {
+            $path = lang_path(App::getLocale());
+        }
+
+        if (! is_dir($path)) {
+            return;
+        }
+
         $translations = collect($finder->files()->in($path))->mapWithKeys(function ($file) {
             $nameWithoutExtension = pathinfo($file->getFilename(), PATHINFO_FILENAME);
 
