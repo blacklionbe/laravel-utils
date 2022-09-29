@@ -4,6 +4,8 @@ namespace BlackLion\LaravelUtils;
 
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Email;
 
 class EmailLogger
 {
@@ -17,15 +19,15 @@ class EmailLogger
         $message = $event->message;
 
         DB::table('email_log')->insert([
-            'date' => date('Y-m-d H:i:s'),
+            'date' => now()->format('Y-m-d H:i:s'),
             'from' => $this->formatAddressField($message, 'From'),
             'to' => $this->formatAddressField($message, 'To'),
             'cc' => $this->formatAddressField($message, 'Cc'),
             'bcc' => $this->formatAddressField($message, 'Bcc'),
             'subject' => $message->getSubject(),
-            'body' => $message->getBody(),
-            'headers' => (string) $message->getHeaders(),
-            'attachments' => $message->getChildren() ? implode("\n\n", $message->getChildren()) : null,
+            'body' => $message->getBody()->bodyToString(),
+			'headers' => $message->getHeaders()->toString(),
+			'attachments' => $this->saveAttachments($message),
         ]);
     }
 
@@ -40,18 +42,23 @@ class EmailLogger
     {
         $headers = $message->getHeaders();
 
-        if (! $headers->has($field)) {
-            return;
-        }
-
-        return collect($headers->get($field)->getFieldBodyModel())
-            ->map(function ($name, $email) {
-                if ($name !== null) {
-                    return $name.' <'.$email.'>';
-                } else {
-                    return $email;
-                }
-            })
-            ->implode(', ');
+        return $headers->get($field)?->getBodyAsString();
     }
+
+    /**
+	 * Collect all attachments and format them as strings.
+	 *
+	 * @param Email $message
+	 * @return string|null
+	 */
+	protected function saveAttachments(Email $message): ?string
+	{
+		if (empty($message->getAttachments())) {
+			return null;
+		}
+
+		return collect($message->getAttachments())
+			->map(fn(DataPart $part) => $part->toString())
+			->implode("\n\n");
+	}
 }
