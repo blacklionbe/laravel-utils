@@ -40,3 +40,17 @@ if (! function_exists('label')) {
         return $result;
     }
 }
+
+if (! function_exists('number')) {
+    function number($value, $decimals = 2)
+    {
+        return number_format($value, $decimals, ',', '.');
+    }
+}
+
+if (! function_exists('currency')) {
+    function currency($value, $decimals = 2)
+    {
+        return '€ '.number($value, $decimals);
+    }
+}

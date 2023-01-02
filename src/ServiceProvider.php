@@ -78,19 +78,11 @@ class ServiceProvider extends EventServiceProvider
         });
 
         Blade::directive('number', function ($expression) {
-            if (strpos($expression, ',') === false) {
-                $expression .= ', 2';
-            }
-
-            return "<?php echo number_format($expression, ',', '.'); ?>";
+            return "<?php echo number($expression); ?>";
         });
 
         Blade::directive('currency', function ($expression) {
-            if (strpos($expression, ',') === false) {
-                $expression .= ', 2';
-            }
-
-            return "<?php echo '€&nbsp;'.number_format($expression, ',', '.'); ?>";
+            return "<?php echo '&euro;&nbsp;'.number($expression); ?>";
         });
 
         Blade::directive('errors', function ($expression) {
@@ -103,7 +95,7 @@ class ServiceProvider extends EventServiceProvider
 
         Blade::directive('capture', function ($expression) {
             return "<?php
-                \$__capture_directive_variable = (string) \Illuminate\Support\Str::of([{$expression}][0] ?? '')->camel();
+                \$__capture_directive_variable = (string) str([{$expression}][0] ?? '')->camel();
                 ob_start();
             ?>";
         });
