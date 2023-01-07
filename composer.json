@@ -2,7 +2,7 @@
     "name": "blacklionbe/laravel-utils",
     "require": {
         "ibericode/vat": "^2.0",
-        "predis/predis": "^1.1"
+        "predis/predis": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2"
