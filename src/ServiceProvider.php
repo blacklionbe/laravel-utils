@@ -2,10 +2,12 @@
 
 namespace BlackLion\LaravelUtils;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Mail\Events\MessageSending;
 use Ibericode\Vat\Validator as VatValidator;
 use Illuminate\Foundation\Events\LocaleUpdated;
@@ -47,6 +49,8 @@ class ServiceProvider extends EventServiceProvider
         $this->addHelpers();
 
         $this->addCarbonMacros();
+
+        $this->addBuilderMacros();
 
         app(ShareTranslations::class)->update();
     }
@@ -127,6 +131,23 @@ class ServiceProvider extends EventServiceProvider
 
         Carbon::macro('formatDateTime', function () {
             return $this->format('d/m/Y H:i');
+        });
+    }
+
+    protected function addBuilderMacros()
+    {
+        Builder::macro('search', function ($columns, $search) {
+            if (! $search) {
+                return $this;
+            }
+
+            $this->where(function ($query) use ($columns, $search) {
+                foreach (Arr::wrap($columns) as $column) {
+                    $query->orWhere($column, 'like', "%{$search}%");
+                }
+            });
+
+            return $this;
         });
     }
 }
