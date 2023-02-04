@@ -2,7 +2,7 @@
 
 namespace BlackLion\LaravelUtils;
 
-trait RememberQueryString
+trait RemembersQueryString
 {
     public $remember;
 
