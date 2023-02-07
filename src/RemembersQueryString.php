@@ -6,23 +6,11 @@ trait RemembersQueryString
 {
     public $remember;
 
-    protected $queryStringRememberQueryString = ['remember'];
+    protected $queryStringRememberQueryString = [
+        'remember',
+    ];
 
-    public function forgetQueryString()
-    {
-        session()->remove($this->getRememberQueryStringSessionName());
-        $this->remember = null;
-
-        $this->getQueryStringKeysToRemember()->each(function ($key) {
-            if ($key === 'page' && in_array('Livewire\WithPagination', class_uses_recursive($this))) {
-                $this->resetPage();
-            } else {
-                $this->reset($key);
-            }
-        });
-    }
-
-    public function mountRememberQueryString()
+    public function mountRemembersQueryString()
     {
         if (request('remember') === 'forget') {
             $this->forgetQueryString();
@@ -44,7 +32,7 @@ trait RemembersQueryString
         });
     }
 
-    public function dehydrateRememberQueryString()
+    public function dehydrateRemembersQueryString()
     {
         session()->put(
             $this->getRememberQueryStringSessionName(),
