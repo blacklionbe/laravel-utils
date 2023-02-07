@@ -42,6 +42,20 @@ trait RemembersQueryString
         );
     }
 
+    public function forgetQueryString()
+    {
+        session()->remove($this->getRememberQueryStringSessionName());
+        $this->remember = null;
+
+        $this->getQueryStringKeysToRemember()->each(function ($key) {
+            if ($key === 'page' && in_array('Livewire\WithPagination', class_uses_recursive($this))) {
+                $this->resetPage();
+            } else {
+                $this->reset($key);
+            }
+        });
+    }
+
     protected function getRememberQueryStringSessionName()
     {
         return 'remember_query_string.'.str_replace('.', '-', $this->getName());
