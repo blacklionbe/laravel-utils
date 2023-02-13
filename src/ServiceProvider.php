@@ -2,13 +2,10 @@
 
 namespace BlackLion\LaravelUtils;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Mail\Events\MessageSending;
 use Ibericode\Vat\Validator as VatValidator;
 use Illuminate\Foundation\Events\LocaleUpdated;
