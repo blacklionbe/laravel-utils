@@ -51,8 +51,6 @@ class ServiceProvider extends EventServiceProvider
 
         $this->addCarbonMacros();
 
-        $this->addBuilderMacros();
-
         app(ShareTranslations::class)->update();
     }
 
@@ -132,23 +130,6 @@ class ServiceProvider extends EventServiceProvider
 
         Carbon::macro('formatDateTime', function () {
             return $this->format('d/m/Y H:i');
-        });
-    }
-
-    protected function addBuilderMacros()
-    {
-        Builder::macro('search', function ($columns, $search) {
-            if (! $search) {
-                return $this;
-            }
-
-            $this->where(function ($query) use ($columns, $search) {
-                foreach (Arr::wrap($columns) as $column) {
-                    $query->orWhere(DB::raw('lower('.$column.')'), 'like', '%'.strtolower($search).'%');
-                }
-            });
-
-            return $this;
         });
     }
 }
