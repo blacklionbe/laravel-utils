@@ -49,7 +49,9 @@ class LanguageDetector
     public function redirect()
     {
         return function () {
-            return redirect('/'.$this->getLanguage(), 301);
+            $query = request()->getQueryString();
+
+            return redirect('/'.$this->getLanguage().($query ? '?'.$query : ''), 301);
         };
     }
 
