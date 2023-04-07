@@ -149,6 +149,9 @@ class LanguageDetector
                 'livewire',
                 '_debugbar',
                 'filament',
+                'media-library-pro',
+                'media',
+                'impersonate',
             ],
             $this->system
         ));
