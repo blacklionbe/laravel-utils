@@ -34,7 +34,11 @@ if (! function_exists('label')) {
         $result = __('labels.'.$key, $replace, $locale);
 
         if (is_string($result) && Str::startsWith($result, 'labels.')) {
-            return $key;
+            $result = __('marmalade::labels.'.$key, $replace, $locale);
+
+            if (is_string($result) && Str::startsWith($result, 'marmalade::labels.')) {
+                return $key;
+            }
         }
 
         return $result;
