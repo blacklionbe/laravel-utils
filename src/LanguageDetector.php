@@ -55,12 +55,16 @@ class LanguageDetector
         };
     }
 
-    public function detect()
+    public function detect($fallback = false)
     {
         $language = $this->getLanguage();
 
         if (! in_array($language, $this->languages)) {
-            abort(404);
+            if ($fallback) {
+                $language = $this->getFirstLanguage();
+            } else {
+                abort(404);
+            }
         }
 
         App::setLocale($language);
