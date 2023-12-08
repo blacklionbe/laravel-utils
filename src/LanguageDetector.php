@@ -156,6 +156,7 @@ class LanguageDetector
                 'media-library-pro',
                 'media',
                 'impersonate',
+                'pulse',
             ],
             $this->system
         ));
